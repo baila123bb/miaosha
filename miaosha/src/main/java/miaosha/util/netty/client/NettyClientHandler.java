@@ -1,7 +1,8 @@
-package com.baila.util.netty.client;
+package miaosha.util.netty.client;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
@@ -12,7 +13,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 
 
-public class NettyClientHandler extends ChannelHandlerAdapter {
+public class NettyClientHandler extends ChannelInboundHandlerAdapter {
 	private ByteBuf firstMessage;
 	private Channel curChannel;
 	
@@ -24,6 +25,7 @@ public class NettyClientHandler extends ChannelHandlerAdapter {
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		
 		curChannel = ctx.channel();
+		//clientChannel.put(1, ctx);
 		
 		Scanner sc = new Scanner(System.in); 
 		System.out.println("请输入："); 

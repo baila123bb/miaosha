@@ -1,10 +1,10 @@
-package miaosha.util.netty.server;
+package miaosha.util.netty.client;
 
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.HashMap;
 
-public class activeChannel {
+public class clientChannel {
 	 //用户表
     private static HashMap<Integer, ChannelHandlerContext> onlineUser = new HashMap<Integer, ChannelHandlerContext>();
     

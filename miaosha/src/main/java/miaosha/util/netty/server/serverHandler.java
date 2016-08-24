@@ -1,4 +1,4 @@
-package com.baila.util.netty.server;
+package miaosha.util.netty.server;
 
 import java.io.UnsupportedEncodingException;
 
@@ -7,16 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import miaosha.util.netty.common.IMMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 
 
-public class serverHandler extends ChannelHandlerAdapter {
+public class serverHandler extends ChannelInboundHandlerAdapter{
 	
 	
 	@Override
@@ -40,17 +42,20 @@ public class serverHandler extends ChannelHandlerAdapter {
 		String recieved = getMessage(buf);
 		System.out.println("服务器接收到消息：" + recieved);
 		
-		try {
-			
-			ctx.writeAndFlush(getSendByteBuf("消息已发送"));
-			
-			ChannelHandlerContext two = activeChannel.get(2);
-			two.writeAndFlush(getSendByteBuf("收到1的消息"));
-			
-			
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+		
+		IMMessage message = (IMMessage)msg;
+        if(activeChannel.get(message.getReceiveId())==null){
+        	activeChannel.put(message.getUid(), ctx);
+        }
+        ChannelHandlerContext c = activeChannel.get(message.getReceiveId());
+        if(c==null){
+            message.setMsg("对方不在线！");
+            activeChannel.get(message.getUid()).writeAndFlush(message);
+        }
+        else
+            c.writeAndFlush(message);
+		
+		
 	}
 
 	/*

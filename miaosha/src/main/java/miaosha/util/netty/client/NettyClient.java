@@ -1,7 +1,10 @@
-package com.baila.util.netty.client;
+package miaosha.util.netty.client;
+
+import java.util.Scanner;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -68,6 +71,16 @@ public class NettyClient {
 	public static void main(String[] args) throws InterruptedException {
 
 		NettyClient client = new NettyClient(9999, "localhost");
-
+		
+//		ChannelHandlerContext cx = clientChannel.get(1);
+//		
+//		
+//		Scanner sc = new Scanner(System.in); 
+//		System.out.println("请输入："); 
+//        String msg = sc.nextLine();
+//        byte[] data = msg.getBytes();
+//        		
+//		cx.writeAndFlush(data);
+		
 	}
 }
