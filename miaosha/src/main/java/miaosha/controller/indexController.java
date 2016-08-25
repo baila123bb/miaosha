@@ -19,6 +19,7 @@ public class indexController extends BaseController {
 	public String index(){
 		System.out.println("spring mvc work");
 		System.out.println("test merge");
+		System.out.println("test develop merge to master");
 		return "index.jsp";
 	}
 	
