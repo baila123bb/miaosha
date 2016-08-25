@@ -9,9 +9,9 @@
 <%@page import="java.util.Date"%>
 
 <%--  request.setAttribute("rtv","rtv="+new Date().getTime());  --%>
-<%-- 
+ 
 <c:set var="pagebase"  scope="request"><%=request.getContextPath()%></c:set>
-<c:set var="staticbase" scope="request"><%=ImgConstants.STATEIC_BASE%></c:set>
+<%--<c:set var="staticbase" scope="request"><%=ImgConstants.STATEIC_BASE%></c:set>
 <c:set var="imgbase" scope="request"><%=ImgConstants.IMG_BASE %></c:set>
 <c:set var="decimalCount" scope="request"><%=PriceConstants.DECIMAL_COUNT %></c:set>
 <c:set var="defaultimg" scope="request"><%=ImgConstants.DEFAULT_IMG_URL %></c:set>
