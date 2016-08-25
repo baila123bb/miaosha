@@ -1,7 +1,10 @@
 package miaosha.util.netty.client;
 
+import java.io.IOException;
 import java.util.Scanner;
 
+import miaosha.util.netty.common.IMConfig;
+import miaosha.util.netty.common.IMMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,7 +18,7 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.AttributeKey;
 
-public class NettyClient {
+public class NettyClient implements Runnable,IMConfig{
 	/*
 	 * 服务器端口号
 	 */
@@ -25,6 +28,10 @@ public class NettyClient {
 	 * 服务器IP
 	 */
 	private String host;
+	
+	public static int UID = 8888;
+    private NettyClientHandler clientHandler = new NettyClientHandler();
+    
 
 	public NettyClient(int port, String host)
 			throws InterruptedException {
@@ -32,7 +39,29 @@ public class NettyClient {
 		this.host = host;
 		start();
 	}
-
+	
+	
+//	public void sendMsg(IMMessage msg) throws IOException {
+//        clientHandler.sendMsg(msg);
+//    }
+//    /**启动客户端控制台*/
+//    private void runServerCMD() throws IOException {
+//        IMMessage message = new IMMessage(
+//                APP_IM,
+//                CLIENT_VERSION,
+//                UID,
+//                TYPE_MSG_TEXT,
+//                UID,
+//                MSG_EMPTY);
+//        @SuppressWarnings("resource")
+//        Scanner scanner = new Scanner(System.in);
+//        do{
+//            message.setMsg(scanner.nextLine());
+//        }
+//        while (clientHandler.sendMsg(message));
+//    }
+	
+	
 	private void start() throws InterruptedException {
 
 		EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
@@ -72,15 +101,11 @@ public class NettyClient {
 
 		NettyClient client = new NettyClient(9999, "localhost");
 		
-//		ChannelHandlerContext cx = clientChannel.get(1);
-//		
-//		
-//		Scanner sc = new Scanner(System.in); 
-//		System.out.println("请输入："); 
-//        String msg = sc.nextLine();
-//        byte[] data = msg.getBytes();
-//        		
-//		cx.writeAndFlush(data);
+	}
+
+	public void run() {
+		// TODO Auto-generated method stub
+		new Thread(this).start();
 		
 	}
 }

@@ -2,7 +2,7 @@ package miaosha.controller;
 
 import redis.clients.jedis.Jedis;
 
-public class test {
+public class jedisTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

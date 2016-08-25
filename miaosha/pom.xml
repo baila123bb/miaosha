@@ -12,7 +12,6 @@
   <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.dubbo>2.5.3</version.dubbo>
-		<version.loxia>2.5.2</version.loxia>
 		<version.velocity>1.7</version.velocity>
 		<version.commons.fileupload>1.3</version.commons.fileupload>
 		<version.validation.api>1.1.0.Final</version.validation.api>
@@ -25,96 +24,265 @@
 		<version.commons.digester>1.8.1</version.commons.digester>
 		<version.junit>4.10</version.junit>
 
-		<version.mp2-web-base>1.0.0-SNAPSHOT</version.mp2-web-base>
-		<version.mp2-product-api>1.0.0-SNAPSHOT</version.mp2-product-api>
-		<version.mp2-trade-api>1.0.0-SNAPSHOT</version.mp2-trade-api>
-		<version.mp2-platform-api>1.0.0-SNAPSHOT</version.mp2-platform-api>
-		<version.mp2-member-api>1.0.0-SNAPSHOT</version.mp2-member-api>
-		<version.mp2-commons>1.0.0-SNAPSHOT</version.mp2-commons>
-		<version.mp2-dataCenter-api>1.0.0-SNAPSHOT</version.mp2-dataCenter-api>
 		<!-- ********************** plugin ************************* -->
 		<v.tomcat7-maven-plugin>2.0</v.tomcat7-maven-plugin>
-		<tomcat7.port>8086</tomcat7.port>
+		<tomcat7.port>8088</tomcat7.port>
 		<tomcat7.path>/</tomcat7.path>
+		
+		<!-- json工具 -->
+		<msgpack.version>0.6.7</msgpack.version>
+		<jedis.version>2.9.0</jedis.version>
+		<netty.version>4.1.4.Final</netty.version>
+		<nio.version>4.4.5</nio.version>
+		
+		<version.zkclient>0.3</version.zkclient>
+		<version.slf4j>1.7.5</version.slf4j>
+		<version.spring.mongodata>1.2.0.RELEASE</version.spring.mongodata>
+		<version.logback>1.0.3</version.logback>
+		
 	</properties>
   
   
   
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    
-    <!-- redis 客户端 -->
-    <dependency>
-	    <groupId>redis.clients</groupId>
-	    <artifactId>jedis</artifactId>
-	    <version>2.9.0</version>
-	</dependency>
-	<!-- netty4 -->
-	<dependency>
-	    <groupId>io.netty</groupId>
-	    <artifactId>netty-all</artifactId>
-	    <version>4.1.4.Final</version>
-	</dependency>
+	<dependencies>
+		<!-- jnuit 测试包 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${version.junit}</version>
+			<scope>test</scope>
+		</dependency>
 	
-	<dependency>
-	    <groupId>org.apache.httpcomponents</groupId>
-	    <artifactId>httpcore-nio</artifactId>
-	    <version>4.4.5</version>
-	</dependency>
+		<!-- redis 客户端 -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>${jedis.version}</version>
+		</dependency>
+		<!-- netty4  和nio相关          包含msgpck json工具    -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>${netty.version}</version>
+		</dependency>
 	
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore-nio</artifactId>
+			<version>${nio.version}</version>
+		</dependency>
 	
-  </dependencies>
-  <build>
+		<dependency>
+			<groupId>org.msgpack</groupId>
+			<artifactId>msgpack</artifactId>
+			<version>${msgpack.version}</version>
+		</dependency>
+	
+		<!--********************** 分布式服务：dubbo ************************* -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>${version.dubbo}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	
+		<!--********************** 注册中心: zookeeper ************************* -->
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>${version.zkclient}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	
+		<!-- log -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${version.logback}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	
+		<!--********************** Spring ************************* -->
+		<!-- spring 相关 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${version.spring}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<!-- Spring data mongodb -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>${version.spring.mongodata}</version>
+		</dependency>
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.26</version>
+		</dependency>
+	
+	</dependencies>
+	<build>
 		<plugins>
-
-			<plugin>
+	
+			<!--  <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.4</version>
+				
 				<configuration>
 					<warName>ROOT</warName>
 					<webResources>
-						<resource>
+						 <resource>
 							<filtering>true</filtering>
-							<directory>WebContent/WEB-INF</directory>
+							<directory>*/webapp/WEB-INF</directory>
 							<targetPath>WEB-INF</targetPath>
 							<includes>
 								<include>**/*.jsp</include>
 							</includes>
 						</resource>
-						<!--  <resource>
-							<directory>${config.path}/tomcat</directory>
-							<includes>
-								<include>context.xml</include>
-							</includes>
-							<targetPath>META-INF</targetPath>
-						</resource>-->
+						<resource> <directory>${config.path}/tomcat</directory> <includes> 
+							<include>context.xml</include> </includes> <targetPath>META-INF</targetPath> 
+							</resource>
 					</webResources>
 				</configuration>
-			</plugin>
-			
+			</plugin> -->
+	
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>${v.tomcat7-maven-plugin}</version>
 				<configuration>
-					<port>8088</port>
+					<port>${tomcat7.port}</port>
 					<path>${tomcat7.path}</path>
-					<uriEncoding>utf-8</uriEncoding>
+					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
 					<ignorePackaging>true</ignorePackaging>
-					<!--  <systemProperties>
-						<spring.profiles.active>dev</spring.profiles.active>
-					</systemProperties>-->
-					<!--  <contextFile>src/main/resources/config/context.xml</contextFile>-->
+					<!-- <systemProperties> <spring.profiles.active>dev</spring.profiles.active> 
+						</systemProperties> -->
+					<!-- <contextFile>src/main/resources/config/context.xml</contextFile> -->
 				</configuration>
-				
+	
 			</plugin>
 		</plugins>
-
+	
 	</build>
 </project>

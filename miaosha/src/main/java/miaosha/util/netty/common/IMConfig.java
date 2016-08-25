@@ -18,4 +18,5 @@ public interface IMConfig {
     byte    TYPE_CONNECT = 0;   //连接后第一次消息确认建立连接和发送认证信息
     byte    TYPE_MSG_TEXT = 1;  //文本消息
     String  MSG_EMPTY = "";     //空消息
+	void run();
 }

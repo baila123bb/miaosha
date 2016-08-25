@@ -40,7 +40,7 @@ public class serverHandler extends ChannelInboundHandlerAdapter{
 
 		ByteBuf buf = (ByteBuf) msg;
 		String recieved = getMessage(buf);
-		System.out.println("服务器接收到消息：" + recieved);
+		System.out.println("鏈嶅姟鍣ㄦ帴鏀跺埌娑堟伅锛�" + recieved);
 		
 		
 		IMMessage message = (IMMessage)msg;
@@ -49,7 +49,7 @@ public class serverHandler extends ChannelInboundHandlerAdapter{
         }
         ChannelHandlerContext c = activeChannel.get(message.getReceiveId());
         if(c==null){
-            message.setMsg("对方不在线！");
+            message.setMsg("瀵规柟涓嶅湪绾匡紒");
             activeChannel.get(message.getUid()).writeAndFlush(message);
         }
         else
@@ -59,7 +59,7 @@ public class serverHandler extends ChannelInboundHandlerAdapter{
 	}
 
 	/*
-	 * 从ByteBuf中获取信息 使用UTF-8编码返回
+	 * 浠嶣yteBuf涓幏鍙栦俊鎭� 浣跨敤UTF-8缂栫爜杩斿洖
 	 */
 	private String getMessage(ByteBuf buf) {
 
@@ -82,4 +82,17 @@ public class serverHandler extends ChannelInboundHandlerAdapter{
 
 		return pingMessage;
 	}
+	
+	/**
+     * 异常处理
+     */
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        System.err.println("与客户端断开连接:"+cause.getMessage());
+        cause.printStackTrace();
+        ctx.close();
+    }
+    
+    
+    
 }
