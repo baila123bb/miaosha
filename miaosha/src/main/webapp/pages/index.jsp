@@ -4,6 +4,12 @@
 
 <h2>哈哈哈</h2>
 
-哎哟
+哎哟<br>
+
+
+<a href="/member/goRegister">
+	<h1>注册路径:/member/goRegister</h1>
+</a>
+
 </body>
 </html>

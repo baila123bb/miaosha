@@ -3,9 +3,16 @@
  */
 package miaosha.controller.member;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import miaosha.common.util.DateUtil;
 import miaosha.controller.BaseController;
 
 /** 
@@ -18,8 +25,18 @@ import miaosha.controller.BaseController;
 public class RegisterController extends BaseController {
 	
 	@RequestMapping("/goRegister")
-	public String index(){
-		System.out.println("go to regist");
+	public String index(HttpServletRequest request, 
+						HttpServletResponse response,
+			  			Model model){
+		
+		Date now = new Date();
+		
+		String st = DateUtil.toString(now);
+		
+		model.addAttribute("time", st);
+		
+		model.addAttribute("xxx", "test");
+		
 		return "member/register";
 	}
 	

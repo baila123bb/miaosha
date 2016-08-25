@@ -40,6 +40,9 @@
 		<version.spring.mongodata>1.2.0.RELEASE</version.spring.mongodata>
 		<version.logback>1.0.3</version.logback>
 		
+		<v.servlet-api>2.5</v.servlet-api>
+		<v.jsp-api>2.1</v.jsp-api>
+		
 	</properties>
   
   
@@ -244,6 +247,21 @@
 		    <groupId>jstl</groupId>
 		    <artifactId>jstl</artifactId>
 		    <version>1.2</version>
+		</dependency>
+		
+		<!-- servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${v.servlet-api}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- jsp-api -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>${v.jsp-api}</version>
+			<scope>provided</scope>
 		</dependency>
 		
 		
