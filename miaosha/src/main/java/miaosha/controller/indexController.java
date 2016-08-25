@@ -18,6 +18,7 @@ public class indexController extends BaseController {
 	@RequestMapping("/")
 	public String index(){
 		System.out.println("spring mvc work");
+		System.out.println("test merge");
 		return "index.jsp";
 	}
 	
