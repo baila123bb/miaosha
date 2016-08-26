@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import miaosha.command.member.memRegistCommand;
 import miaosha.common.util.DateUtil;
 import miaosha.controller.BaseController;
 
@@ -36,6 +38,22 @@ public class RegisterController extends BaseController {
 		model.addAttribute("time", st);
 		
 		model.addAttribute("xxx", "test");
+		
+		return "member/register";
+	}
+	
+	
+	@RequestMapping("/register")
+	public String register(
+						@ModelAttribute memRegistCommand memRegistCommand,
+						HttpServletRequest request, 
+						HttpServletResponse response,
+			  			Model model){
+		//这里就可以判断用户名是否存在之类     然后可以保存到数据库了
+		
+		System.out.println(memRegistCommand.getUsername());
+
+		
 		
 		return "member/register";
 	}

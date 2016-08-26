@@ -2,6 +2,7 @@
 
 <%@include file="/pages/commons/common.jsp"%>
 
+
 <html>
 <body>
 <div>
@@ -15,6 +16,18 @@
 
 
 这一段是测试更新
+
+<div>
+	<form action="/member/register">
+		<span width="100">name:	</span>	<input height="150px" width="200px" name="username" type="text"><br>
+		<span width="100">psw:	</span>	<input height="150px" width="200px" name="password" type="text"><br>
+		<span width="100">repsw:</span>	<input height="150px" width="200px" name="repassword" type="text"><br>
+	
+		<input type="submit" name="submit" value="注册">	
+	</form>
+
+</div>
+
 
 </body>
 </html>
