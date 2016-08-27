@@ -14,6 +14,7 @@ import miaosha.controller.BaseController;
  * 
  * @author "BAILA" 
  * @creation 2016年8月25日 
+ * test master
  */
 @Controller
 @RequestMapping("/chat")
