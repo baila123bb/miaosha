@@ -8,6 +8,7 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	
 	<import resource="spring-mybatis.xml"/>
+	<import resource="spring-jedis.xml"/> 
 	
 	<context:component-scan base-package="miaosha.*" >
 	</context:component-scan>
