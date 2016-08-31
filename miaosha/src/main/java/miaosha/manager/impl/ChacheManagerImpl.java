@@ -19,7 +19,8 @@ public class ChacheManagerImpl implements ChacheManager {
 	
 	@Autowired
 	private JedisPool jedisPool;
-
+	
+	
 	public String testChache(String key) {
 		// TODO Auto-generated method stub
 		Jedis jedis = jedisPool.getResource();
@@ -36,6 +37,11 @@ public class ChacheManagerImpl implements ChacheManager {
 		//jedisPool.returnBrokenResource(jedis);
 		jedisPool.returnResource(jedis);
 		return value>=-1;
+	}
+
+	public Boolean setValue(String key, Object value) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
