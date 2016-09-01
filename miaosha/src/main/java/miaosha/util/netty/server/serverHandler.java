@@ -23,12 +23,13 @@ public class serverHandler extends ChannelInboundHandlerAdapter{
 	
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-				
-		if(activeChannel.get(1) == null){
-			activeChannel.put(1, ctx);
-		}else{
-			activeChannel.put(2, ctx);
-		}
+		
+		System.out.println("有客户端连接："+ctx.channel().remoteAddress());
+//		if(activeChannel.get(1) == null){
+//			activeChannel.put(1, ctx);
+//		}else{
+//			activeChannel.put(2, ctx);
+//		}
 		
 		//channellist.add(newChannel);
 		
@@ -38,22 +39,23 @@ public class serverHandler extends ChannelInboundHandlerAdapter{
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 
-		ByteBuf buf = (ByteBuf) msg;
-		String recieved = getMessage(buf);
-		System.out.println("鏈嶅姟鍣ㄦ帴鏀跺埌娑堟伅锛�" + recieved);
+//		ByteBuf buf = (ByteBuf) msg;
+//		String recieved = getMessage(buf);
+//		System.out.println("获取消息" + recieved);
 		
 		
 		IMMessage message = (IMMessage)msg;
-        if(activeChannel.get(message.getReceiveId())==null){
-        	activeChannel.put(message.getUid(), ctx);
-        }
-        ChannelHandlerContext c = activeChannel.get(message.getReceiveId());
-        if(c==null){
-            message.setMsg("瀵规柟涓嶅湪绾匡紒");
-            activeChannel.get(message.getUid()).writeAndFlush(message);
-        }
-        else
-            c.writeAndFlush(message);
+		System.out.println(message);
+//        if(activeChannel.get(message.getReceiveId())==null){
+//        	activeChannel.put(message.getUid(), ctx);
+//        }
+//        ChannelHandlerContext c = activeChannel.get(message.getReceiveId());
+//        if(c==null){
+//            message.setMsg("不在线");
+//            activeChannel.get(message.getUid()).writeAndFlush(message);
+//        }
+//        else
+//            c.writeAndFlush(message);
 		
 		
 	}

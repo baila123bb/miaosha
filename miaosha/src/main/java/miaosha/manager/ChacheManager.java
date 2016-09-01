@@ -15,6 +15,4 @@ public interface ChacheManager {
 	
 	public Boolean decr(String key);
 	
-	public Boolean setValue(String key,Object value);
-	
 }

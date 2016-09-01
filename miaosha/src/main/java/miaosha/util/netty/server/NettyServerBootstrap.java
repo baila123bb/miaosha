@@ -1,4 +1,6 @@
 package miaosha.util.netty.server;
+
+import miaosha.util.netty.common.MsgPackDecode;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -39,12 +41,16 @@ public class NettyServerBootstrap {
 				protected void initChannel(SocketChannel socketChannel)
 						throws Exception {
 					ChannelPipeline p = socketChannel.pipeline();
+                    p.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(65536, 0, 2, 0, 2));
+                    p.addLast("msgpack decoder",new MsgPackDecode());
+                    //ch.pipeline().addLast("frameEncoder", new LengthFieldPrepender(2));
+                    //ch.pipeline().addLast("msgpack encoder",new MsgPackEncode());
+                    
 					p.addLast(new serverHandler());
 				}
 			});
 			ChannelFuture f = bootstrap.bind(port).sync();
 			if (f.isSuccess()) {
-				//logger.debug("启动Netty服务成功，端口号：" + this.port);
 				System.out.println("启动Netty服务成功，端口号：" + this.port);
 			}
 			// 关闭连接
@@ -52,7 +58,6 @@ public class NettyServerBootstrap {
 			System.out.println("server close ");
 
 		} catch (Exception e) {
-			//logger.error("启动Netty服务异常，异常信息：" + e.getMessage());
 			System.out.println("启动Netty服务异常，异常信息：" + e.getMessage());
 			e.printStackTrace();
 		} finally {

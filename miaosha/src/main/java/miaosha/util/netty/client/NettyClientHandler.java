@@ -3,8 +3,10 @@ package miaosha.util.netty.client;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
+
 import miaosha.util.netty.common.IMConfig;
 import miaosha.util.netty.common.IMMessage;
 import io.netty.buffer.ByteBuf;
@@ -27,15 +29,20 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		
 		System.out.println("成功连接服务器");
-        this.ctx = ctx;
-//        IMMessage message = new IMMessage(
-//                APP_IM,
-//                CLIENT_VERSION,
-//                Client.UID,
-//                TYPE_CONNECT,
-//                SERVER_ID,
-//                MSG_EMPTY);
-//        sendMsg(message);
+        //this.ctx = ctx;
+        //ctx.channel().writeAndFlush(getSendByteBuf("xxxx"));
+        IMMessage message = new IMMessage(
+                APP_IM,
+                CLIENT_VERSION,
+                NettyClient.UID,
+                TYPE_CONNECT,
+                SERVER_ID,
+                MSG_EMPTY);
+        
+        ctx.channel().writeAndFlush(message);
+        
+        
+        //sendMsg(message);
 		
 		
 	}
@@ -45,7 +52,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
 			throws Exception {
 		ByteBuf buf = (ByteBuf) msg;
 		String rev = getMessage(buf);
-		System.out.println("瀹㈡埛绔敹鍒版湇鍔″櫒鏁版嵁:" + rev);
+		System.out.println("客户端接受消息" + rev);
 	}
 
 	private String getMessage(ByteBuf buf) {
@@ -58,7 +65,17 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
 			return null;
 		}
 	}
+	
+	private ByteBuf getSendByteBuf(String message)
+			throws UnsupportedEncodingException {
 
+		byte[] req = message.getBytes("UTF-8");
+		ByteBuf pingMessage = Unpooled.buffer();
+		pingMessage.writeBytes(req);
+
+		return pingMessage;
+	}
+	
 	public void run() {
 		// TODO Auto-generated method stub
 		

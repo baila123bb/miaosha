@@ -1,6 +1,11 @@
 package miaosha.util.netty.common;
 
-public class IMMessage {
+import java.io.Serializable;
+
+import org.msgpack.annotation.Message;
+
+@Message
+public class IMMessage implements Serializable{
 	//应用ID
     private byte appId;
     //版本号

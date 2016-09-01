@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import miaosha.util.netty.common.IMConfig;
 import miaosha.util.netty.common.IMMessage;
+import miaosha.util.netty.common.MsgPackEncode;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,10 +16,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.AttributeKey;
 
-public class NettyClient implements Runnable,IMConfig{
+public class NettyClient implements IMConfig{
 	/*
 	 * 服务器端口号
 	 */
@@ -39,29 +41,7 @@ public class NettyClient implements Runnable,IMConfig{
 		this.host = host;
 		start();
 	}
-	
-	
-//	public void sendMsg(IMMessage msg) throws IOException {
-//        clientHandler.sendMsg(msg);
-//    }
-//    /**启动客户端控制台*/
-//    private void runServerCMD() throws IOException {
-//        IMMessage message = new IMMessage(
-//                APP_IM,
-//                CLIENT_VERSION,
-//                UID,
-//                TYPE_MSG_TEXT,
-//                UID,
-//                MSG_EMPTY);
-//        @SuppressWarnings("resource")
-//        Scanner scanner = new Scanner(System.in);
-//        do{
-//            message.setMsg(scanner.nextLine());
-//        }
-//        while (clientHandler.sendMsg(message));
-//    }
-	
-	
+
 	private void start() throws InterruptedException {
 
 		EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
@@ -80,9 +60,11 @@ public class NettyClient implements Runnable,IMConfig{
 				protected void initChannel(SocketChannel socketChannel)
 						throws Exception {
 					
-					AttributeKey<Object> name = AttributeKey.newInstance("name");
-					socketChannel.attr(name).setIfAbsent("name");
-					
+                    //ch.pipeline().addLast("frameDecoder", new LengthFieldBasedFrameDecoder(65536, 0, 2, 0, 2));
+                    //ch.pipeline().addLast("msgpack decoder",new MsgPackDecode());
+					socketChannel.pipeline().addLast("frameEncoder", new LengthFieldPrepender(2));
+					socketChannel.pipeline().addLast("msgpack encoder",new MsgPackEncode());
+                    
 					socketChannel.pipeline().addLast(new NettyClientHandler());
 				}
 			});
@@ -103,9 +85,4 @@ public class NettyClient implements Runnable,IMConfig{
 		
 	}
 
-	public void run() {
-		// TODO Auto-generated method stub
-		new Thread(this).start();
-		
-	}
 }
