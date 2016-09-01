@@ -21,7 +21,7 @@ import io.netty.util.AttributeKey;
 public class NettyClientHandler extends ChannelInboundHandlerAdapter implements IMConfig {
 
 	
-	 private ChannelHandlerContext ctx;
+	 private ChannelHandlerContext ctx1;
 	 
 	 
 	 
@@ -29,7 +29,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		
 		System.out.println("成功连接服务器");
-        //this.ctx = ctx;
+        this.ctx1 = ctx;
         //ctx.channel().writeAndFlush(getSendByteBuf("xxxx"));
         IMMessage message = new IMMessage(
                 APP_IM,
@@ -50,9 +50,10 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
-		ByteBuf buf = (ByteBuf) msg;
-		String rev = getMessage(buf);
-		System.out.println("客户端接受消息" + rev);
+		
+		IMMessage message = (IMMessage)msg;
+		System.out.println(message);
+		
 	}
 
 	private String getMessage(ByteBuf buf) {
@@ -76,8 +77,19 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter implements 
 		return pingMessage;
 	}
 	
-	public void run() {
-		// TODO Auto-generated method stub
+	public Boolean senMsg(String msg){
 		
+		IMMessage message = new IMMessage(
+                APP_IM,
+                CLIENT_VERSION,
+                NettyClient.UID,
+                TYPE_CONNECT,
+                SERVER_ID,
+                msg);
+		
+		this.ctx1.channel().writeAndFlush(message);
+		return true;
 	}
+	
+	
 }

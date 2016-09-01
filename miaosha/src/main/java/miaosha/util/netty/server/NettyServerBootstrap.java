@@ -1,6 +1,7 @@
 package miaosha.util.netty.server;
 
 import miaosha.util.netty.common.MsgPackDecode;
+import miaosha.util.netty.common.MsgPackEncode;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -11,6 +12,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
 
 public class NettyServerBootstrap {
@@ -43,8 +45,8 @@ public class NettyServerBootstrap {
 					ChannelPipeline p = socketChannel.pipeline();
                     p.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(65536, 0, 2, 0, 2));
                     p.addLast("msgpack decoder",new MsgPackDecode());
-                    //ch.pipeline().addLast("frameEncoder", new LengthFieldPrepender(2));
-                    //ch.pipeline().addLast("msgpack encoder",new MsgPackEncode());
+                    p.addLast("frameEncoder", new LengthFieldPrepender(2));
+                    p.addLast("msgpack encoder",new MsgPackEncode());
                     
 					p.addLast(new serverHandler());
 				}

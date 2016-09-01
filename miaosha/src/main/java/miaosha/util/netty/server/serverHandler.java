@@ -46,16 +46,28 @@ public class serverHandler extends ChannelInboundHandlerAdapter{
 		
 		IMMessage message = (IMMessage)msg;
 		System.out.println(message);
-//        if(activeChannel.get(message.getReceiveId())==null){
-//        	activeChannel.put(message.getUid(), ctx);
-//        }
-//        ChannelHandlerContext c = activeChannel.get(message.getReceiveId());
-//        if(c==null){
-//            message.setMsg("不在线");
-//            activeChannel.get(message.getUid()).writeAndFlush(message);
-//        }
-//        else
-//            c.writeAndFlush(message);
+		
+		//message.setMsg("服务端已收到你的消息，谢谢你。     : "+message.getMsg());
+		
+		//ctx.writeAndFlush(message);
+		
+		
+        if(activeChannel.get(message.getUid())==null){
+        	activeChannel.put(message.getUid(), ctx);
+        }else{
+        	
+        	ChannelHandlerContext c = activeChannel.get(message.getReceiveId());
+            if(c==null){
+                message.setMsg("不在线");
+                activeChannel.get(message.getUid()).writeAndFlush(message);
+            }
+            else
+            	System.out.println("找到id="+message.getReceiveId()+"的用户发送消息给他");
+                c.writeAndFlush(message);
+        	
+        }
+        
+        
 		
 		
 	}
